@@ -42,7 +42,7 @@ const getUser = catchAsync(async (req, res) => {
 
 const updateUser = catchAsync(async (req, res) => {
   const userId = req.user._id.valueOf();
-  console.log(req.img + "jfgjhgjkdhkhkkkjkkj");
+
   const user = await userService.updateUserById(userId, req.body, req.img);
   res.send(user);
 });

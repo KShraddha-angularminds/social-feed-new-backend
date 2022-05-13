@@ -2,6 +2,7 @@ const express = require("express");
 const auth = require("../middlewares/auth");
 const multer = require("multer");
 const validate = require("../middlewares/validate");
+const uploadImage = require("../middlewares/multer");
 const postValidation = require("../validations/post.validation");
 const postController = require("../controllers/post.controller");
 
@@ -12,7 +13,11 @@ router.use(auth());
 
 router
   .route("/add")
-  .post(validate(postValidation.createPost), postController.createPost);
+  .post(
+    uploadImage.uploadPost.single("image"),
+    validate(postValidation.createPost),
+    postController.createPost
+  );
 
 module.exports = router;
 

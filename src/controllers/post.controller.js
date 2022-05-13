@@ -17,6 +17,7 @@ const createPost = catchAsync(async (req, res) => {
   try {
     post = await postService.createPost({
       ...req.body,
+      image: req.img,
     });
   } catch (e) {
     throw e;
