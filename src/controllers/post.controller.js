@@ -13,7 +13,7 @@ const { postService } = require("../services");
 // });
 
 const createPost = catchAsync(async (req, res) => {
-  // const org = await userService.createOrg(req.body);
+  console.log(req.body);
   let post;
   try {
     post = await postService.createPost({

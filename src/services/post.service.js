@@ -9,8 +9,9 @@ const ApiError = require("../utils/ApiError");
  */
 const createPost = async (postBody) => {
   const post = new Post(postBody);
-
+  console.log(post);
   const savedPost = await post.save();
+
   return savedPost;
 };
 

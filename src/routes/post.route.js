@@ -2,7 +2,7 @@ const express = require("express");
 const auth = require("../middlewares/auth");
 const validate = require("../middlewares/validate");
 const postValidation = require("../validations/post.validation");
-const userController = require("../controllers/user.controller");
+const postController = require("../controllers/post.controller");
 
 const router = express.Router();
 
@@ -18,7 +18,7 @@ router.use(auth());
 // Routes: get one user, update user, delete user
 router
   .route("/add")
-  .post(validate(postValidation.getUser), userController.getUser);
+  .post(validate(postValidation.createPost), postController.createPost);
 
 // Routes: update company
 
