@@ -41,12 +41,9 @@ const getUser = catchAsync(async (req, res) => {
 });
 
 const updateUser = catchAsync(async (req, res) => {
-  // const user = await (
-  //   await userService.updateUserById(req.params.userId, req.body)
-  // ).populate("_org", "_id name email");
   const userId = req.user._id.valueOf();
-  // console.log(req.user._id.valueOf());
-  const user = await userService.updateUserById(userId, req.body);
+  console.log(req.img + "jfgjhgjkdhkhkkkjkkj");
+  const user = await userService.updateUserById(userId, req.body, req.img);
   res.send(user);
 });
 

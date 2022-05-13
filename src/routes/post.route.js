@@ -1,5 +1,6 @@
 const express = require("express");
 const auth = require("../middlewares/auth");
+const multer = require("multer");
 const validate = require("../middlewares/validate");
 const postValidation = require("../validations/post.validation");
 const postController = require("../controllers/post.controller");
@@ -9,18 +10,9 @@ const router = express.Router();
 // Token authentication for all routes defined in this file
 router.use(auth());
 
-// Routes: get users, create user
-// router
-//   .route("/")
-//   .post(validate(userValidation.createUser), userController.createUser)
-//   .get(validate(userValidation.getUsers), userController.getUsers);
-
-// Routes: get one user, update user, delete user
 router
   .route("/add")
   .post(validate(postValidation.createPost), postController.createPost);
-
-// Routes: update company
 
 module.exports = router;
 
