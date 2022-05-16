@@ -1,10 +1,9 @@
 const express = require("express");
 const auth = require("../middlewares/auth");
-const multer = require("multer");
 const validate = require("../middlewares/validate");
-const uploadImage = require("../middlewares/multer");
-const postValidation = require("../validations/post.validation");
-const postController = require("../controllers/post.controller");
+
+const commentValidation = require("../validations/comment.validation");
+const commentController = require("../controllers/comment.controller");
 
 const router = express.Router();
 
@@ -12,16 +11,20 @@ const router = express.Router();
 router.use(auth());
 
 router
-  .route("/add")
+  .route("/add/:postId")
   .post(
-    uploadImage.uploadPost.single("image"),
-    validate(postValidation.createPost),
-    postController.createPost
+    validate(commentValidation.createComment),
+    commentController.createComment
   );
 
-router.route("/").get(postController.getPost);
+router
+  .route("/:postId")
+  .get(
+    validate(commentValidation.getComment),
+    commentController.getCommentById
+  );
 
-router.route("/:postId").patch(postController.likeUnlikePost);
+router.route("/:commentId").patch(commentController.likeUnlikeComment);
 
 module.exports = router;
 
@@ -65,12 +68,7 @@ module.exports = router;
  *                 minLength: 8
  *                 description: At least one number and one letter
  *               role:
- *                  type: string
- *                  enum: [user, admin]
- *             example:
- *               name: fake name
- *               email: fake@example.com
- *               password: password1
+ *                  typWelcome and Congratulation @Kiran Mahadik :bouquet:rd: password1
  *               role: user
  *     responses:
  *       "201":

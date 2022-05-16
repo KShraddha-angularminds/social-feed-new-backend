@@ -18,6 +18,7 @@ const createPost = catchAsync(async (req, res) => {
     post = await postService.createPost({
       ...req.body,
       image: req.img,
+      user_id: req.user._id,
     });
   } catch (e) {
     throw e;
@@ -27,6 +28,45 @@ const createPost = catchAsync(async (req, res) => {
   });
 });
 
+//get all posts
+const getPost = catchAsync(async (req, res) => {
+  // console.log("reached controller");
+  // const posts = await postService.getPost();
+
+  // if (!posts) {
+  //   throw new ApiError(httpStatus.NOT_FOUND, "post not found");
+  // }
+  // res.send(posts);
+
+  const filter = pick(req.query, ["_id", "caption"]);
+  const options = pick(req.query, ["limit", "page"]);
+  // const result = await postService.queryPosts(filter, {
+  //   ...options,
+  // });
+
+  const result = await postService.queryPosts(filter, {
+    ...options,
+    populate: [
+      {
+        path: "user_id",
+      },
+    ],
+  });
+  res.send(result);
+});
+
+const likeUnlikePost = catchAsync(async (req, res) => {
+  const userId = req.user._id.valueOf();
+  const updatedPost = await postService.updatePostById(
+    userId,
+    req.params.postId
+  );
+
+  res.send(updatedPost);
+});
+
 module.exports = {
   createPost,
+  getPost,
+  likeUnlikePost,
 };

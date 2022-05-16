@@ -73,7 +73,6 @@ const getUserByEmail = async (email) => {
  * @returns {Promise<User>}
  */
 const updateUserById = async (userId, updateBody, updatedImage) => {
-  console.log(updatedImage + "jhfhfsdj");
   const user = await getUserById(userId);
   if (!user) {
     throw new ApiError(httpStatus.BAD_REQUEST, "User not found");

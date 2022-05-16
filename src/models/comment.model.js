@@ -4,14 +4,17 @@ const validator = require("validator");
 const { private, paginate, softDelete } = require("./plugins");
 const { roles } = require("../config/roles");
 
-const postSchema = mongoose.Schema(
+const commentSchema = mongoose.Schema(
   {
-    image: {
+    postId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Post",
+    },
+    createdBy: {
       type: String,
     },
-    caption: {
+    text: {
       type: String,
-      required: true,
     },
     likes: [
       {
@@ -19,8 +22,10 @@ const postSchema = mongoose.Schema(
       },
     ],
     user_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      type: String,
+    },
+    user_image: {
+      type: String,
     },
   },
   {
@@ -30,11 +35,11 @@ const postSchema = mongoose.Schema(
 
 // userSchema.plugin(softDelete);
 // userSchema.plugin(private);
-postSchema.plugin(paginate);
+// userSchema.plugin(paginate);
 
 /**
- * @typedef Post
+ * @typedef Comment
  */
-const Post = mongoose.model("Post", postSchema);
+const Comment = mongoose.model("Comment", commentSchema);
 
-module.exports = Post;
+module.exports = Comment;
