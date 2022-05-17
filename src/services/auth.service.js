@@ -86,6 +86,14 @@ const changePassword = async (userId, newPassword, currentPassword) => {
     );
   }
 };
+//logout
+const logout = async (token) => {
+  try {
+    const expireToken = await tokenService.expireToken(token);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 /**
  * Verify email
@@ -115,4 +123,5 @@ module.exports = {
   verifyEmail,
   changePassword,
   loginWithGoogle,
+  logout,
 };

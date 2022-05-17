@@ -1,9 +1,9 @@
 const Joi = require("joi");
 
 const createPost = {
-  query: Joi.object().keys({
+  body: Joi.object().keys({
     image: Joi.any(),
-    caption: Joi.string(),
+    caption: Joi.string().required(),
   }),
 };
 

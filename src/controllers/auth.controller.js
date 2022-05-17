@@ -52,6 +52,13 @@ const googleLogin = catchAsync(async (req, res) => {
   });
 });
 
+const logout = catchAsync(async (req, res) => {
+  const token = req.headers["authorization"];
+  console.log(token);
+  const response = await authService.logout(token);
+  res.send(response);
+});
+
 const forgotPassword = catchAsync(async (req, res) => {
   const resetPasswordToken = await tokenService.generateResetPasswordToken(
     req.body.email
@@ -103,4 +110,5 @@ module.exports = {
   self,
   changePassword,
   googleLogin,
+  logout,
 };

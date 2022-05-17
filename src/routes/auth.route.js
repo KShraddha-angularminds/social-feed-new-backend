@@ -44,6 +44,7 @@ router.patch(
   validate(authValidation.changePassword),
   authController.changePassword
 );
+router.post("/logout", validate(authValidation.logout), authController.logout);
 module.exports = router;
 
 /**
