@@ -12,6 +12,9 @@ router.post(
   authController.register
 );
 router.post("/login", validate(authValidation.login), authController.login);
+
+router.post("/google-login", authController.googleLogin);
+
 router.post(
   "/forgot-password",
   validate(authValidation.forgotPassword),
@@ -32,8 +35,15 @@ router.post(
   validate(authValidation.verifyEmail),
   authController.verifyEmail
 );
+
 router.get("/self", auth(), authController.self);
 
+router.use(auth());
+router.patch(
+  "/change-password",
+  validate(authValidation.changePassword),
+  authController.changePassword
+);
 module.exports = router;
 
 /**

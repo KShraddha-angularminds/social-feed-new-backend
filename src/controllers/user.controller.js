@@ -42,11 +42,15 @@ const getUser = catchAsync(async (req, res) => {
 
 const updateUser = catchAsync(async (req, res) => {
   const userId = req.user._id.valueOf();
-
   const user = await userService.updateUserById(userId, req.body, req.img);
   res.send(user);
 });
 
+const removeProfile = catchAsync(async (req, res) => {
+  const userId = req.user._id.valueOf();
+  const user = await userService.removeProfile(userId);
+  res.send(user);
+});
 const updateOrg = catchAsync(async (req, res) => {
   const org = await userService.updateOrgById(req.params.orgId, req.body);
   res.send(org);
@@ -64,4 +68,5 @@ module.exports = {
   updateUser,
   deleteUser,
   updateOrg,
+  removeProfile,
 };

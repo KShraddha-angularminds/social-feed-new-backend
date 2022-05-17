@@ -39,6 +39,19 @@ const login = catchAsync(async (req, res) => {
   });
 });
 
+const googleLogin = catchAsync(async (req, res) => {
+  const { idToken } = req.body;
+
+  const user = await authService.loginWithGoogle(idToken);
+  console.log(user);
+  const { token, expires } = await tokenService.generateAuthTokens(user);
+  res.send({
+    user,
+    token,
+    expires,
+  });
+});
+
 const forgotPassword = catchAsync(async (req, res) => {
   const resetPasswordToken = await tokenService.generateResetPasswordToken(
     req.body.email
@@ -50,6 +63,17 @@ const forgotPassword = catchAsync(async (req, res) => {
 const resetPassword = catchAsync(async (req, res) => {
   await authService.resetPassword(req.query.token, req.body.password);
   res.status(httpStatus.NO_CONTENT).send();
+});
+
+const changePassword = catchAsync(async (req, res) => {
+  const userId = req.user._id.valueOf();
+  await authService.changePassword(
+    userId,
+    req.body.new_password,
+    req.body.current_password
+  );
+
+  res.status(200).send("password changed successfully");
 });
 
 const sendVerificationEmail = catchAsync(async (req, res) => {
@@ -77,4 +101,6 @@ module.exports = {
   sendVerificationEmail,
   verifyEmail,
   self,
+  changePassword,
+  googleLogin,
 };

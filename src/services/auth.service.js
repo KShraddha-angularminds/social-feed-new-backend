@@ -4,7 +4,11 @@ const userService = require("./user.service");
 const Token = require("../models/token.model");
 const ApiError = require("../utils/ApiError");
 const { tokenTypes } = require("../config/tokens");
-
+const bcrypt = require("bcryptjs");
+const { OAuth2Client } = require("google-auth-library");
+const client = new OAuth2Client({
+  clientId: process.env.CLIENT_ID,
+});
 /**
  * Login with username and password
  * @param {string} email
@@ -20,6 +24,25 @@ const loginUserWithEmailAndPassword = async (email, password) => {
   return user;
 };
 
+const loginWithGoogle = async (idToken) => {
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken: idToken,
+      requiredAudience: process.env.CLIENT_ID,
+    });
+    const payload = ticket.getPayload();
+
+    const user = await userService.getUserByEmail(payload.email);
+    //let user = await User.findOne({ email: payload.email });
+    if (!user) {
+      throw new Error();
+    } else {
+      return user;
+    }
+  } catch (error) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, "email is not registered");
+  }
+};
 /**
  * Reset password
  * @param {string} resetPasswordToken
@@ -40,6 +63,27 @@ const resetPassword = async (resetPasswordToken, newPassword) => {
     await Token.deleteMany({ user: user.id, type: tokenTypes.RESET_PASSWORD });
   } catch (error) {
     throw new ApiError(httpStatus.UNAUTHORIZED, "Password reset failed");
+  }
+};
+
+const changePassword = async (userId, newPassword, currentPassword) => {
+  try {
+    const user = await userService.getUserById(userId);
+    if (!user) {
+      throw new Error();
+    }
+    console.log(newPassword + "heyy");
+    const passExist = await bcrypt.compare(currentPassword, user.password);
+    if (!passExist) throw new Error();
+    Object.assign(user, { password: newPassword });
+    await user.save();
+    //console.log(user);
+    return user;
+  } catch (error) {
+    throw new ApiError(
+      httpStatus.UNAUTHORIZED,
+      "current password does not matched"
+    );
   }
 };
 
@@ -69,4 +113,6 @@ module.exports = {
   loginUserWithEmailAndPassword,
   resetPassword,
   verifyEmail,
+  changePassword,
+  loginWithGoogle,
 };

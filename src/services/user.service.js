@@ -88,6 +88,16 @@ const updateUserById = async (userId, updateBody, updatedImage) => {
   return user;
 };
 
+const removeProfile = async (userId) => {
+  const user = await getUserById(userId);
+  if (!user) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "User not found");
+  }
+
+  Object.assign(user, { image: "" });
+  await user.save();
+  return user;
+};
 /**
  * Update organization by id
  * @param {ObjectId} orgId
@@ -136,4 +146,5 @@ module.exports = {
   updateUserById,
   updateOrgById,
   deleteUserById,
+  removeProfile,
 };

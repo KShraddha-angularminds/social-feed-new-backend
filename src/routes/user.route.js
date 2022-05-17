@@ -19,13 +19,14 @@ router.use(auth());
 // Routes: get one user, update user, delete user
 router
   .route("/")
-  .get(validate(userValidation.getUser), userController.getUser)
   .patch(
     uploadImage.upload.single("image"),
     validate(userValidation.updateUser),
     userController.updateUser
   )
   .delete(validate(userValidation.deleteUser), userController.deleteUser);
+
+router.route("/remove-profile").patch(userController.removeProfile);
 
 module.exports = router;
 
