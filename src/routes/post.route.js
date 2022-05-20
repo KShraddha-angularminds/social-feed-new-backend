@@ -14,7 +14,7 @@ router.use(auth());
 router
   .route("/add")
   .post(
-    uploadImage.uploadPost.single("image"),
+    uploadImage.uploadPost.any("image"),
     validate(postValidation.createPost),
     postController.createPost
   );

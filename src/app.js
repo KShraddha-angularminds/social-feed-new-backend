@@ -21,14 +21,28 @@ if (config.env !== "test") {
 
 // Set necessary HTTP headers for app security
 app.use(helmet());
-
+app.use(
+  helmet.contentSecurityPolicy({
+    useDefaults: true,
+    directives: {
+      "img-src": ["'self'", "https: data:"],
+    },
+  })
+);
 // JSON requests are received as plain text. We need to parse the json request body.
 app.use(express.json());
-app.use(
-  "/assets/profileImage",
-  express.static(__dirname + "/assets/profileImage")
-);
-app.use("/assets/postImage", express.static(__dirname + "/assets/postImage"));
+
+//image upload directory path
+
+app.use(express.static(__dirname + `/assets/postImage`));
+app.use(express.static(__dirname + `/assets/profileImage`));
+
+// app.use(
+//   "/assets/profileImage",
+//   express.static(__dirname + "/assets/profileImage")
+// );
+// app.use("/assets/postImage", express.static(__dirname + "/assets/postImage"));
+
 // Parse urlencoded request body if provided with any of the requests
 app.use(express.urlencoded({ extended: true }));
 

@@ -86,15 +86,18 @@ const generateAuthTokens = async (user) => {
     expires: accessTokenExpires.toDate(),
   };
 };
-const expireToken = async (token) => {
-  jwt.sign(token, { expiresIn: 1 }, (logout, err) => {
-    if (logout) {
-      return { msg: "you have been logout successfully" };
-    } else {
-      return { msg: "Error" };
-    }
-  });
-};
+
+// const expireToken = async (token) => {
+//   jwt.sign(token, { expiresIn: 1 }, (logout, err) => {
+//     if (logout) {
+//       //return "mess";
+//       result = "mess";
+//     } else {
+//     }
+//   });
+
+//   return result;
+// };
 /**
  * Generate reset password token
  * @param {string} email
@@ -149,5 +152,4 @@ module.exports = {
   generateAuthTokens,
   generateResetPasswordToken,
   generateVerifyEmailToken,
-  expireToken,
 };

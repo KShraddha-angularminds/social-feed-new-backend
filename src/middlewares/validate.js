@@ -5,9 +5,9 @@ const ApiError = require("../utils/ApiError");
 const fs = require("fs");
 
 const validate = (schema) => (req, res, next) => {
-  console.log(req.file + "dsfgjhsdgfh");
-  if (req.file === undefined)
-    return next(new ApiError(httpStatus.BAD_REQUEST, "Image is required"));
+  // console.log(req.file + "dsfgjhsdgfh");
+  // if (req.file === undefined)
+  //   return next(new ApiError(httpStatus.BAD_REQUEST, "Image is required"));
 
   const validSchema = pick(schema, ["params", "query", "body"]);
   const object = pick(req, Object.keys(validSchema));

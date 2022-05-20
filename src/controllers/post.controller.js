@@ -14,10 +14,17 @@ const { postService } = require("../services");
 
 const createPost = catchAsync(async (req, res) => {
   let post;
+
+  console.log(req.files);
+  const imageFile = req.files.map((i) => {
+    return i.filename;
+  });
+  console.log(imageFile);
+  console.log("++++++++++++++");
   try {
     post = await postService.createPost({
       ...req.body,
-      image: req.img,
+      image: imageFile,
       user_id: req.user._id,
     });
   } catch (e) {

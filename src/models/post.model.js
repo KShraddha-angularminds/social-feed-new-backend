@@ -6,9 +6,12 @@ const { roles } = require("../config/roles");
 
 const postSchema = mongoose.Schema(
   {
-    image: {
-      type: String,
-    },
+    image: [
+      {
+        type: String,
+      },
+    ],
+
     caption: {
       type: String,
       required: true,

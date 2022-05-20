@@ -8,9 +8,8 @@ const ApiError = require("../utils/ApiError");
  * @returns {Promise<User>}
  */
 const createPost = async (postBody, postImage) => {
-  console.log(postImage);
   const post = new Post(postBody, JSON.stringify(postImage));
-  console.log(post);
+
   const savedPost = await post.save();
 
   return savedPost;

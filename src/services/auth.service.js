@@ -87,13 +87,14 @@ const changePassword = async (userId, newPassword, currentPassword) => {
   }
 };
 //logout
-const logout = async (token) => {
-  try {
-    const expireToken = await tokenService.expireToken(token);
-  } catch (error) {
-    console.log(error);
-  }
-};
+// const logout = async (token) => {
+//   try {
+//     const expireToken = await tokenService.expireToken(token);
+//     console.log(expireToken);
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
 /**
  * Verify email
@@ -107,7 +108,9 @@ const verifyEmail = async (verifyEmailToken) => {
       tokenTypes.VERIFY_EMAIL
     );
     const user = await userService.getUserById(verifyEmailTokenDoc.user);
+    console.log(user + "jkhjkcvhjcxvjhhhjkhhkhk");
     if (!user) {
+      console.log("jhjfhjhfgjhj");
       throw new Error();
     }
     await Token.deleteMany({ user: user.id, type: tokenTypes.VERIFY_EMAIL });
@@ -123,5 +126,4 @@ module.exports = {
   verifyEmail,
   changePassword,
   loginWithGoogle,
-  logout,
 };

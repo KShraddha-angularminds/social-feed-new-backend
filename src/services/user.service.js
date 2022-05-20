@@ -77,6 +77,7 @@ const updateUserById = async (userId, updateBody, updatedImage) => {
   if (!user) {
     throw new ApiError(httpStatus.BAD_REQUEST, "User not found");
   }
+  if (updatedImage === undefined) updatedImage = "";
   if (updateBody.email && (await User.isEmailTaken(updateBody.email, userId))) {
     throw new ApiError(
       httpStatus.BAD_REQUEST,
