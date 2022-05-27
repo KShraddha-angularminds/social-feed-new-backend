@@ -20,7 +20,14 @@ const getCommentById = async (postId) => {
 
   const comments = await Comment.find({
     postId: postId,
-  }).populate("postId");
+  }).populate([
+    {
+      path: "created_by",
+    },
+    {
+      path: "replies.created_by",
+    },
+  ]);
   return comments;
 };
 
@@ -46,8 +53,22 @@ const updateCommentById = async (userId, commentId) => {
   }
 };
 
+const replyToComment = async (userId, commentId, commentBody) => {
+  // console.log(userId + " " + commentId + " " + commentBody);
+  const comment = await Comment.findById(commentId);
+  const updatedComment = [
+    ...comment.replies,
+    { text: commentBody.text, created_by: userId },
+  ];
+  console.log(updatedComment);
+  Object.assign(comment, { replies: updatedComment });
+  await comment.save();
+  return comment;
+};
+
 module.exports = {
   createComment,
   getCommentById,
   updateCommentById,
+  replyToComment,
 };

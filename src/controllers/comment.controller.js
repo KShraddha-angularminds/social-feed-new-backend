@@ -13,11 +13,13 @@ const { commentService } = require("../services");
 // });
 
 const createComment = catchAsync(async (req, res) => {
+  const userId = req.user._id.valueOf();
   let comment;
   try {
     comment = await commentService.createComment({
       ...req.body,
       postId: req.params.postId,
+      created_by: userId,
     });
   } catch (e) {
     throw e;
@@ -51,8 +53,20 @@ const likeUnlikeComment = catchAsync(async (req, res) => {
   res.send(updatedComment);
 });
 
+const replyToComment = catchAsync(async (req, res) => {
+  const userId = req.user._id.valueOf();
+  const reply = await commentService.replyToComment(
+    userId,
+    req.params.commentId,
+    req.body
+  );
+
+  res.send(reply);
+});
+
 module.exports = {
   createComment,
   getCommentById,
   likeUnlikeComment,
+  replyToComment,
 };

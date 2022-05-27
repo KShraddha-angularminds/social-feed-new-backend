@@ -102,7 +102,9 @@ const verifyEmail = catchAsync(async (req, res) => {
 });
 
 const self = catchAsync(async (req, res) => {
-  res.send(req.user);
+  console.log();
+  res.send(await req.user.populate("savedpost"));
+  // res.send(req.user);
 });
 
 module.exports = {

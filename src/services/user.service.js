@@ -89,6 +89,37 @@ const updateUserById = async (userId, updateBody, updatedImage) => {
   return user;
 };
 
+const savePost = async (userId, postId) => {
+  const user = await getUserById(userId);
+  if (!user) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "User not found");
+  }
+  // const savedPosts = user.savedpost;
+  // savedPosts.push(postId);
+  // console.log(savedPosts);
+  // Object.assign(user, { savedpost: savedPosts });
+  // await user.save();
+
+  const flag = user.savedpost.filter((id) => {
+    console.log(id + " jhjhh" + postId);
+    return id == postId;
+  });
+  console.log(flag);
+  if (flag == "") {
+    console.log("in if");
+    user.savedpost.push(postId);
+    Object.assign(user, { savedpost: user.savedpost });
+    await user.save();
+    return user;
+  } else {
+    var newPostArr = user.savedpost.filter((id) => id != postId);
+
+    Object.assign(user, { savedpost: newPostArr });
+    await user.save();
+    return user;
+  }
+};
+
 const removeProfile = async (userId) => {
   const user = await getUserById(userId);
   if (!user) {
@@ -148,4 +179,5 @@ module.exports = {
   updateOrgById,
   deleteUserById,
   removeProfile,
+  savePost,
 };

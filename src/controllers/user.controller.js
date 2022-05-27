@@ -45,6 +45,11 @@ const updateUser = catchAsync(async (req, res) => {
   const user = await userService.updateUserById(userId, req.body, req.img);
   res.send(user);
 });
+const savePost = catchAsync(async (req, res) => {
+  const userId = req.user._id.valueOf();
+  const user = await userService.savePost(userId, req.params.postId);
+  res.send(user);
+});
 
 const removeProfile = catchAsync(async (req, res) => {
   const userId = req.user._id.valueOf();
@@ -69,4 +74,5 @@ module.exports = {
   deleteUser,
   updateOrg,
   removeProfile,
+  savePost,
 };

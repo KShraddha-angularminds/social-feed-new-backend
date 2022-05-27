@@ -25,7 +25,12 @@ router
   );
 
 router.route("/:commentId").patch(commentController.likeUnlikeComment);
-
+router
+  .route("/reply/:commentId")
+  .patch(
+    validate(commentValidation.replyToComment),
+    commentController.replyToComment
+  );
 module.exports = router;
 
 /**

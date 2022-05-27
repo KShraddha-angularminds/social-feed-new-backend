@@ -63,6 +63,12 @@ const userSchema = mongoose.Schema(
     username: {
       type: String,
     },
+    savedpost: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Post",
+      },
+    ],
     role: {
       type: String,
       enum: roles,

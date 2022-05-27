@@ -10,8 +10,9 @@ const commentSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Post",
     },
-    createdBy: {
-      type: String,
+    created_by: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
     text: {
       type: String,
@@ -21,12 +22,21 @@ const commentSchema = mongoose.Schema(
         type: String,
       },
     ],
-    user_id: {
-      type: String,
-    },
-    user_image: {
-      type: String,
-    },
+
+    replies: [
+      {
+        text: {
+          type: String,
+        },
+        created_by: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+        },
+      },
+      {
+        timestamps: true,
+      },
+    ],
   },
   {
     timestamps: true,

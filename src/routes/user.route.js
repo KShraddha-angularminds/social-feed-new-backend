@@ -27,7 +27,7 @@ router
   .delete(validate(userValidation.deleteUser), userController.deleteUser);
 
 router.route("/remove-profile").patch(userController.removeProfile);
-
+router.route("/savepost/:postId").patch(userController.savePost);
 module.exports = router;
 
 /**
